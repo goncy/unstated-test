@@ -9,7 +9,7 @@ type Joke = {
 };
 
 type JokesState = {
-  jokes: Array<Joke>,
+  list: Array<Joke>,
 };
 
 const API_URL = "https://api.chucknorris.io/jokes/random";
