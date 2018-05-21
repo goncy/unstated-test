@@ -1,6 +1,8 @@
 // @flow
 import {Container} from "unstated";
 
+import products from "../services/products";
+
 type Product = {
   _id: string,
   index: number,
@@ -22,7 +24,9 @@ export default class ProductsContainer extends Container<ProductsState> {
     list: [],
   };
 
-  loadProducts = products => {
-    this.setState({list: products});
+  loadProducts = async () => {
+    const {data: list} = await products.fetch();
+
+    this.setState({list});
   };
 }

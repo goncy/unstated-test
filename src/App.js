@@ -1,10 +1,10 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
 import styled from "styled-components";
-import {Subscribe} from "unstated";
 
 import connect from "./hocs/connect";
 
 import jokes from "./models/jokes";
+import products from "./models/products";
 
 const Container = styled.div`
   display: grid;
@@ -23,7 +23,7 @@ const Container = styled.div`
     grid-gap: 12px;
     padding: 12px;
 
-    .joke {
+    .card {
       padding: 8px;
       display: flex;
       align-items: center;
@@ -41,36 +41,34 @@ const Container = styled.div`
 
 class App extends Component {
   async componentDidMount() {
-    const [jokes] = this.props.models;
+    const [jokes, products] = this.props.models;
 
-    await jokes.getJoke();
+    await [jokes.getJoke(), products.loadProducts()];
   }
 
   render() {
+    const [jokes, products] = this.props.models;
+
+    console.log(products);
+
     return (
       <Container>
-        <Subscribe to={[jokes]}>
-          {jokes => (
-            <Fragment>
-              <header className="center">
-                <h1>Chuck norris jokes</h1>
-              </header>
-              <section>
-                {jokes.state.list.map((joke, key) => (
-                  <div className="joke" key={key}>
-                    {joke}
-                  </div>
-                ))}
-              </section>
-              <footer onClick={jokes.getJoke} className="center">
-                Get joke
-              </footer>
-            </Fragment>
-          )}
-        </Subscribe>
+        <header className="center">
+          <h1>Chuck norris jokes</h1>
+        </header>
+        <section>
+          {jokes.state.list.map((joke, key) => (
+            <div className="card" key={key}>
+              {joke}
+            </div>
+          ))}
+        </section>
+        <footer onClick={jokes.getJoke} className="center">
+          Get joke
+        </footer>
       </Container>
     );
   }
 }
 
-export default connect([jokes])(App);
+export default connect([jokes, products])(App);
