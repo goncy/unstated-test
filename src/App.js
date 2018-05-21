@@ -2,6 +2,8 @@ import React, {Component, Fragment} from "react";
 import styled from "styled-components";
 import {Subscribe} from "unstated";
 
+import connect from "./hocs/connect";
+
 import jokes from "./models/jokes";
 
 const Container = styled.div`
@@ -38,6 +40,12 @@ const Container = styled.div`
 `;
 
 class App extends Component {
+  async componentDidMount() {
+    const [jokes] = this.props.models;
+
+    await jokes.getJoke();
+  }
+
   render() {
     return (
       <Container>
@@ -65,4 +73,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect([jokes])(App);
