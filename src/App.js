@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import connect from "./hocs/connect";
 
-import jokes from "./models/jokes";
-import products from "./models/products";
+import jokes from "./containers/jokes";
+import products from "./containers/products";
 
 const Container = styled.div`
   display: grid;
@@ -41,13 +41,13 @@ const Container = styled.div`
 
 class App extends Component {
   async componentDidMount() {
-    const [jokes, products] = this.props.models;
+    const [jokes, products] = this.props.containers;
 
     await [jokes.getJoke(), products.loadProducts()];
   }
 
   render() {
-    const [jokes, products] = this.props.models;
+    const [jokes, products] = this.props.containers;
 
     console.log(products);
 
